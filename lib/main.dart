@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterclassroom/courselist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +38,34 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.black,
         titleTextStyle: TextStyle(
           color: Colors.white,
-          fontSize: 30.0,
+          fontSize: 24.0,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Courselist()),
+                  );
+                },
+                child: Text("Login"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  elevation: 5,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
