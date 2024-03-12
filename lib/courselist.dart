@@ -47,7 +47,13 @@ class _CourselistState extends State<Courselist> {
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
           child: Column(
-            children: [courseListView()],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 12,
+              ),
+              courseListView()
+            ],
           ),
         ),
       ),
@@ -66,51 +72,52 @@ class _CourselistState extends State<Courselist> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Coursedetails(index: index)),
-            );
-          },
-          child: Card(
-            elevation: 0,
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black54, width: 1.0),
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-            child: SizedBox(
-              height: 100,
-              child: ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 18),
-                titleAlignment: ListTileTitleAlignment.titleHeight,
-                title: Text(
-                  "Course Title",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-                ),
-                subtitle: Text(
-                  "Name of Instructor",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
-                ),
-                trailing: PopupMenuButton(
-                  itemBuilder: (BuildContext context) {
-                    return [
-                      PopupMenuItem(
-                          child: Text(
-                            'Unenroll',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          value: index),
-                    ];
-                  },
-                  onSelected: (int index) {
-                    setState(() {
-                      course -= 1;
-                    });
-                  },
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Coursedetails(index: index)),
+              );
+            },
+            child: Card(
+              elevation: 0,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.black54, width: 1.0),
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: SizedBox(
+                height: 100,
+                child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+                  titleAlignment: ListTileTitleAlignment.titleHeight,
+                  title: Text(
+                    "Course Title",
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                  ),
+                  subtitle: Text(
+                    "Name of Instructor",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
+                  ),
+                  trailing: PopupMenuButton(
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        PopupMenuItem(
+                            child: Text(
+                              'Unenroll',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            value: index),
+                      ];
+                    },
+                    onSelected: (int index) {
+                      unenrollDialog();
+                    },
+                  ),
                 ),
               ),
             ),
@@ -136,6 +143,61 @@ class _CourselistState extends State<Courselist> {
               )
             ],
           ),
+        );
+      },
+    );
+  }
+
+  void unenrollDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Icon(
+            Icons.warning_rounded,
+            color: Colors.red,
+            size: 40,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Are you really sure you want to unenroll in this course?",
+                style: TextStyle(fontSize: 18),
+              )
+            ],
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.red, fontSize: 16),
+                  ),
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      course -= 1;
+                    });
+                  },
+                  child: Text(
+                    "Proceed",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                ),
+              ],
+            )
+          ],
         );
       },
     );

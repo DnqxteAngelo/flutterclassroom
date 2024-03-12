@@ -24,20 +24,61 @@ class _CoursedetailsState extends State<Coursedetails> {
     Widget body;
     if (_selectedIndex == 0) {
       body = Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Lessons content"),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 16,
+              ),
+              lessonListView()
+            ],
+          ),
         ),
       );
     } else {
       body = Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("People content"),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                "Instructor",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Divider(),
+              ),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.black,
+                  child: Text(
+                    "I",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ),
+                title: Text("Instructor Name"),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Students",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Divider(),
+              ),
+              peopleListView()
+            ],
+          ),
         ),
       );
     }
@@ -56,20 +97,8 @@ class _CoursedetailsState extends State<Coursedetails> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: GestureDetector(
-              onTap: () {
-                print("avatar clicked");
-              },
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Text(
-                  "A",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-          )
+              padding: const EdgeInsets.only(right: 16),
+              child: IconButton(onPressed: () {}, icon: Icon(Icons.info)))
         ],
       ),
       drawer: appDrawer(context),
@@ -93,5 +122,78 @@ class _CoursedetailsState extends State<Coursedetails> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  Widget lessonListView() {
+    return ListView.builder(
+      itemCount: course,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Coursedetails(index: index)),
+              );
+            },
+            child: Card(
+              elevation: 0,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.black54, width: 1.0),
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: SizedBox(
+                height: 100,
+                child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+                  titleAlignment: ListTileTitleAlignment.titleHeight,
+                  leading: Icon(
+                    Icons.library_books,
+                    color: Colors.black,
+                    size: 24,
+                  ),
+                  title: Text(
+                    "Lesson Title",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                  ),
+                  subtitle: Text(
+                    "Date posted",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget peopleListView() {
+    return ListView.builder(
+        itemCount: course,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.black,
+                child: Text(
+                  "S",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+              ),
+              title: Text("Student Name"),
+            ),
+          );
+        });
   }
 }
