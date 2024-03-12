@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterclassroom/aboutcourse.dart';
 import 'package:flutterclassroom/widget.dart';
 
 class Coursedetails extends StatefulWidget {
@@ -98,7 +99,14 @@ class _CoursedetailsState extends State<Coursedetails> {
         actions: [
           Padding(
               padding: const EdgeInsets.only(right: 16),
-              child: IconButton(onPressed: () {}, icon: Icon(Icons.info)))
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Aboutcourse()),
+                    );
+                  },
+                  icon: Icon(Icons.info)))
         ],
       ),
       drawer: appDrawer(context),

@@ -189,6 +189,19 @@ class _CourselistState extends State<Courselist> {
                     setState(() {
                       course -= 1;
                     });
+
+                    final snackBar = SnackBar(
+                      content: const Text('Unenrolled to course.'),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: () {
+                          setState(() {
+                            course += 1;
+                          });
+                        },
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: Text(
                     "Proceed",
